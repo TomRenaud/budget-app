@@ -11,7 +11,7 @@ const CustomTable = ({ title, onClick, dataSource, columns }) => {
             title={
                 <Title
                     title={title}
-                    icon={<PlusCircleOutlined onClick={onClick} />}
+                    icon={<PlusCircleOutlined style={{ fontSize: 24 }} onClick={onClick} />}
                 />
             }
         >

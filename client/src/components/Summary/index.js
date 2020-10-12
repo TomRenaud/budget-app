@@ -24,7 +24,7 @@ const Summary = ({ wages, credit, debit, balance, actions, onRemoveCredit  }) =>
                                 <EditOutlined key="edit" disabled />
                             ]}
                         >
-                            <Statistic key={i} value={salary} suffix="€" />
+                            <Statistic key={i} value={salary} precision={2} suffix="€" />
                         </Card>
                     )
                 }

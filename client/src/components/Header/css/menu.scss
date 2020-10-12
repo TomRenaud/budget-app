@@ -24,6 +24,7 @@ html body{
       font-weight: 200;
       margin-bottom: 0;
       margin-left: 10px;
+      color: #fff;
     }
   }
   .container-header-actions {
@@ -32,6 +33,9 @@ html body{
     justify-content: center;
     button {
       margin: 10px;
+      background-color: #fff;
+      color: #000;
+      border: none;
     }
   }
 }

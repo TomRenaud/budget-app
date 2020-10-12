@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { BankOutlined, SaveOutlined, CloudDownloadOutlined } from "@ant-design/icons";
 import {useDispatch, useSelector} from 'react-redux';
 import { saveBackup, importBackup } from "../../services/API";
@@ -19,24 +19,28 @@ export const Header = () => {
   return (
       <div className="container-header">
           <div className="container-header-title">
-              <BankOutlined style={{ fontSize: 24 }}/>
+              <BankOutlined style={{ fontSize: 24, color: "#fff" }} />
               <h1 className="header-app">Budget App</h1>
           </div>
           <div className="container-header-actions">
-              <Button
-                  type="primary"
-                  icon={<CloudDownloadOutlined />}
-                  onClick={handleImportBackup}
-              >
-                  Importer
-              </Button>
-              <Button
-                  type="primary"
-                  icon={<SaveOutlined />}
-                  onClick={() => saveBackup(backup)}
-              >
-                  Enregistrer
-              </Button>
+              <Tooltip title="Importer">
+                  <Button
+                      size="large"
+                      type="primary"
+                      shape="circle"
+                      icon={<CloudDownloadOutlined />}
+                      onClick={handleImportBackup}
+                  />
+              </Tooltip>
+              <Tooltip title="Enregistrer">
+                  <Button
+                      size="large"
+                      type="primary"
+                      shape="circle"
+                      icon={<SaveOutlined />}
+                      onClick={() => saveBackup(backup)}
+                  />
+              </Tooltip>
           </div>
       </div>
   );
