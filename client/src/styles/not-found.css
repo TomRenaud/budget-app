@@ -1,0 +1,31 @@
+.container-not-found {
+    border-top: solid 3px #FFBA00;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+.container-not-found > div {
+    display: flex;
+    align-items: center;
+}
+.title-not-found {
+    font-size: 200px;
+    font-family: 'Roboto',Helvetica Neue,Arial,Sans-serif;
+    color: #30302f;
+}
+.logo-not-found {
+    width: 200px;
+    height: 200px;
+}
+.msg-not-found {
+    font-size: 20px;
+    color: #30302F;
+}
+.fallback-btn {
+    background-color: #FFBA00 !important;
+    border: none !important;
+    margin: 20px;
+    border-radius: 3px !important;
+}

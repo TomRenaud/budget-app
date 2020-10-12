@@ -1,0 +1,32 @@
+/* CONTAINER */
+
+html body{
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #30302F;
+    font-size: 14px;
+}
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #69c0ff;
+  margin-top: 0;
+  padding: 10px;
+  .container-header-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    .header-app {
+      font-weight: 200;
+      margin-bottom: 0;
+      margin-left: 10px;
+    }
+  }
+  .container-header-actions {
+    display: flex;
+  }
+}
