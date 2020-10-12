@@ -18,75 +18,50 @@ import "../styles/home.scss";
 
 const Home = () => {
     // SELECTORS
-    const backupFromStore = useSelector(state => state.backup);
+    const backup = useSelector(state => state.backup);
 
-    // BACKUP
-    const [_backup, _setBackup] = useState({});
+    // SUMMARY
+    const [summary, setSummary] = useState({
+        credit: 0,
+        debit: 0,
+        balance: 0,
+        wages: [],
+        charges: [],
+        transactions: []
+    });
+
+    const { credit, debit, balance, wages, charges, transactions } = summary;
 
     // MODALS
     const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
     const [isChargesModalVisible, setIsChargesModalVisible] = useState(false);
     const [isVisibleCreditModal, setIsVisibleCreditModal] = useState(false);
 
-    // DATASOURCE
-    const [chargesDataSource, setChargesDataSource] = useState( []);
-    const [transactionsDataSource, setTransactionsDataSource] = useState( []);
-
-    // SUMMARY DATA
-    const [credit, setCredit] = useState(0);
-    const [debit, setDebit] = useState( 0);
-    const [balance, setBalance] = useState( 0);
-    const [wages, setWages] = useState( []);
+    useEffect(() => {
+        if(Object.keys(backup).length === 6) {
+            setSummary(backup);
+        }
+    }, [backup]);
 
     const dispatch = useDispatch();
     const { Panel } = Collapse;
 
-    useEffect(() => {
-        dispatch(setBackup(_backup));
-    }, [_backup]);
-
-    useEffect(() => {
-        backupFromStore.credit && setCredit(backupFromStore.credit);
-        backupFromStore.debit && setDebit(backupFromStore.debit);
-        backupFromStore.balance && setBalance(backupFromStore.balance);
-        backupFromStore.wages && setWages(backupFromStore.wages);
-        backupFromStore.charges && setChargesDataSource(backupFromStore.charges);
-        backupFromStore.transactions && setTransactionsDataSource(backupFromStore.transactions);
-        //setBackup(backupFromStore);
-    }, [backupFromStore]);
-
-    useEffect(() => {
-        const diff = credit - debit
-        setBalance(diff);
-        _setBackup({ ..._backup, balance: diff });
-    }, [credit, debit]);
-
-    useEffect(() => {
-        if(wages.length) {
-            const sum = wages.reduce((sum, salary) => sum + salary);
-            setCredit(sum);
-            _setBackup({ ..._backup, credit: sum });
-        }
-    }, [wages]);
+    const updateSummary = (obj) => {
+        setSummary({ ...summary, ...obj });
+        dispatch(setBackup({ ...summary, ...obj }));
+    };
 
     const addNewCharge = (charge) => {
-        const newDebit = debit + charge.amount
-        setDebit(newDebit);
-        setChargesDataSource([
-            ...chargesDataSource,
-            {
-                ...charge,
-                key: chargesDataSource.length
-            }
-        ]);
-        _setBackup({
-            ..._backup,
+        const newDebit = debit + charge.amount;
+        const newBalance = credit - newDebit;
+        updateSummary({
             debit: newDebit,
+            balance: newBalance,
             charges: [
-                ..._backup.charges,
+                ...charges,
                 {
                     ...charge,
-                    key: chargesDataSource.length
+                    key: charges.length
                 }
             ]
         });
@@ -94,23 +69,16 @@ const Home = () => {
     };
 
     const addNewTransaction = (transaction) => {
-        const newDebit = debit + transaction.amount
-        setDebit(newDebit);
-        setTransactionsDataSource([
-            ...transactionsDataSource,
-            {
-                ...transaction,
-                key: transactionsDataSource.length
-            }
-        ]);
-        _setBackup({
-            ..._backup,
+        const newDebit = debit + transaction.amount;
+        const newBalance = credit - newDebit;
+        updateSummary({
             debit: newDebit,
+            balance: newBalance,
             transactions: [
-                ..._backup.transactions,
+                ...transactions,
                 {
                     ...transaction,
-                    key: transactionsDataSource.length
+                    key: transactions.length
                 }
             ]
         });
@@ -118,18 +86,18 @@ const Home = () => {
     };
 
     const addNewCredit = (amount) => {
-        setWages([...wages, amount]);
-        _setBackup({ ..._backup, wages: [...wages, amount] });
+        const newWages = [...wages, amount];
+        updateSummary({
+            wages: newWages,
+            credit: newWages.reduce((sum, salary) => sum + salary)
+        });
         setIsVisibleCreditModal(false);
     };
 
     const removeSalary = (amount) => {
         const diff = credit - amount;
         const updatedWages = wages.filter(salary => salary !== amount)
-        setWages(updatedWages);
-        setCredit(diff);
-        _setBackup({
-            ..._backup,
+        updateSummary({
             credit: diff,
             wages: updatedWages
         });
@@ -156,7 +124,7 @@ const Home = () => {
                 <Panel header="Charges" key="1">
                     <CustomTable
                         title="Charges"
-                        dataSource={chargesDataSource}
+                        dataSource={charges}
                         columns={chargesColumns}
                         onClick={() => setIsChargesModalVisible(!isChargesModalVisible)}
                     />
@@ -166,7 +134,7 @@ const Home = () => {
                 <Panel header="Dépenses" key="1">
                     <CustomTable
                         title="Dépenses"
-                        dataSource={transactionsDataSource}
+                        dataSource={transactions}
                         columns={transactionsColumns}
                         onClick={() => setIsTransactionModalVisible(!isTransactionModalVisible)}
                     />
