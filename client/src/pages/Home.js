@@ -42,6 +42,10 @@ const Home = () => {
     const { Panel } = Collapse;
 
     useEffect(() => {
+        dispatch(setBackup(_backup));
+    }, [_backup]);
+
+    useEffect(() => {
         backupFromStore.credit && setCredit(backupFromStore.credit);
         backupFromStore.debit && setDebit(backupFromStore.debit);
         backupFromStore.balance && setBalance(backupFromStore.balance);
@@ -55,7 +59,6 @@ const Home = () => {
         const diff = credit - debit
         setBalance(diff);
         _setBackup({ ..._backup, balance: diff });
-        dispatch(setBackup(_backup));
     }, [credit, debit]);
 
     useEffect(() => {
@@ -63,7 +66,6 @@ const Home = () => {
             const sum = wages.reduce((sum, salary) => sum + salary);
             setCredit(sum);
             _setBackup({ ..._backup, credit: sum });
-            dispatch(setBackup(_backup));
         }
     }, [wages]);
 
@@ -88,7 +90,6 @@ const Home = () => {
                 }
             ]
         });
-        dispatch(setBackup(_backup));
         setIsChargesModalVisible(false);
     };
 
@@ -113,14 +114,12 @@ const Home = () => {
                 }
             ]
         });
-        dispatch(setBackup(_backup));
         setIsTransactionModalVisible(false);
     };
 
     const addNewCredit = (amount) => {
         setWages([...wages, amount]);
         _setBackup({ ..._backup, wages: [...wages, amount] });
-        dispatch(setBackup(_backup));
         setIsVisibleCreditModal(false);
     };
 
@@ -134,7 +133,6 @@ const Home = () => {
             credit: diff,
             wages: updatedWages
         });
-        dispatch(setBackup(_backup));
     };
 
     return (
