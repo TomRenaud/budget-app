@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {Modal, DatePicker, Button, Select, InputNumber} from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Title from "../Title";
+import moment from "moment";
 import 'moment/locale/fr';
 import { bool, func, array } from "prop-types";
 
@@ -35,6 +36,7 @@ const TransactionModal = ({ isVisible, onCancel, categories, onOk }) => {
                 <DatePicker
                     style={{ width: 300 }}
                     format="DD/MM/YYYY"
+                    defaultValue={moment()}
                     onChange={(_, date) => setTransaction({ ...transaction, date })}
                 />
             </div>

@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import Title from "../Title";
 import { InputNumber, Modal, DatePicker, Button, Select } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import Title from "../Title";
+import moment from "moment";
 import 'moment/locale/fr';
 import { bool, func, array } from "prop-types";
 import "./styles.scss";
 
 const { Option } = Select;
+const currentMonth = moment().format('MM');
+const currentYear = moment().format('YYYY');
 
 const ChargesModal = ({ isVisible, onCancel, categories, onOk }) => {
     const [charge, setCharge] = useState({});
@@ -31,6 +34,7 @@ const ChargesModal = ({ isVisible, onCancel, categories, onOk }) => {
                 <DatePicker
                     style={{ width: 300 }}
                     format="DD/MM/YYYY"
+                    defaultValue={moment(`${currentMonth}/05/${currentYear}`, "MM/DD/YYYY")}
                     onChange={(_, date) => setCharge({ ...charge, date })}
                 />
             </div>
