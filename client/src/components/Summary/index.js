@@ -21,7 +21,7 @@ const Summary = ({ wages, credit, debit, balance, actions, onRemoveCredit  }) =>
                             className="card-salary"
                             actions={[
                                 <CloseOutlined key="close" onClick={() => onRemoveCredit(salary)} />,
-                                <EditOutlined key="edit" disabled />
+                                //<EditOutlined key="edit" />
                             ]}
                         >
                             <Statistic key={i} value={salary} precision={2} suffix="€" />

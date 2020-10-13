@@ -87,19 +87,24 @@ const Home = () => {
 
     const addNewCredit = (amount) => {
         const newWages = [...wages, amount];
+        const newCredit = newWages.reduce((sum, salary) => sum + salary);
+        const newBalance = newCredit - debit;
         updateSummary({
             wages: newWages,
-            credit: newWages.reduce((sum, salary) => sum + salary)
+            credit: newCredit,
+            balance: newBalance
         });
         setIsVisibleCreditModal(false);
     };
 
-    const removeSalary = (amount) => {
-        const diff = credit - amount;
-        const updatedWages = wages.filter(salary => salary !== amount)
+    const removeCredit = (amount) => {
+        const newWages = wages.filter(salary => salary !== amount);
+        const newCredit = credit - amount;
+        const newBalance = newCredit - debit;
         updateSummary({
-            credit: diff,
-            wages: updatedWages
+            wages: newWages,
+            credit: newCredit,
+            balance: newBalance
         });
     };
 
@@ -110,7 +115,7 @@ const Home = () => {
                 balance={balance}
                 credit={credit}
                 debit={debit}
-                onRemoveCredit={removeSalary}
+                onRemoveCredit={removeCredit}
                 actions={[
                     <Tooltip key="new_credit" title="Ajouter un revenu">
                         <PlusCircleOutlined

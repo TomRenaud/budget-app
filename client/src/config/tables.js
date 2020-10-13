@@ -84,6 +84,14 @@ export const transactionsCategories = [
     {
         value: "hair_dresser",
         label: "Coiffeur",
+    },
+    {
+        value: "credit_card",
+        label: "Carte de crédit",
+    },
+    {
+        value: "fioul",
+        label: "Fioul",
     }
 ];
 
