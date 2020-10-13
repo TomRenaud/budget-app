@@ -5,3 +5,10 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+.ant-card {
+  border-radius: 3px;
+  .ant-card-head,
+  .ant-card-actions {
+    border-radius: 3px;
+  }
+}

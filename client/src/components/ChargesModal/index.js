@@ -10,9 +10,12 @@ import "./styles.scss";
 const { Option } = Select;
 const currentMonth = moment().format('MM');
 const currentYear = moment().format('YYYY');
+const defaultDate = moment(`${currentMonth}/05/${currentYear}`, "MM/DD/YYYY");
 
 const ChargesModal = ({ isVisible, onCancel, categories, onOk }) => {
-    const [charge, setCharge] = useState({});
+    const [charge, setCharge] = useState({
+        date: defaultDate
+    });
     return (
         <Modal
             title={<Title title="Nouvelle charge" icon={<CloseOutlined onClick={onCancel} />} />}
@@ -22,7 +25,7 @@ const ChargesModal = ({ isVisible, onCancel, categories, onOk }) => {
                 <div>
                     <Button
                         disabled={Object.keys(charge).length !== 3}
-                        onClick={() => onOk(charge)}
+                        onClick={() => onOk({ id: Date.now(), ...charge })}
                     >
                         Ajouter
                     </Button>
@@ -34,8 +37,8 @@ const ChargesModal = ({ isVisible, onCancel, categories, onOk }) => {
                 <DatePicker
                     style={{ width: 300 }}
                     format="DD/MM/YYYY"
-                    defaultValue={moment(`${currentMonth}/05/${currentYear}`, "MM/DD/YYYY")}
-                    onChange={(_, date) => setCharge({ ...charge, date })}
+                    defaultValue={defaultDate}
+                    onChange={date => setCharge({ ...charge, date })}
                 />
             </div>
             <div className="container-item">

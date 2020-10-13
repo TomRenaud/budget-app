@@ -3,8 +3,7 @@ import { Card, Statistic } from "antd";
 import {
     ArrowUpOutlined,
     ArrowDownOutlined,
-    CloseOutlined,
-    EditOutlined
+    CloseOutlined
 } from "@ant-design/icons";
 import { number, array, func } from "prop-types";
 import "./styles.scss";
@@ -20,8 +19,7 @@ const Summary = ({ wages, credit, debit, balance, actions, onRemoveCredit  }) =>
                             title={`Revenu ${i + 1}`}
                             className="card-salary"
                             actions={[
-                                <CloseOutlined key="close" onClick={() => onRemoveCredit(salary)} />,
-                                //<EditOutlined key="edit" />
+                                <CloseOutlined key="close" onClick={() => onRemoveCredit(salary)} />
                             ]}
                         >
                             <Statistic key={i} value={salary} precision={2} suffix="€" />

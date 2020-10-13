@@ -1,30 +1,32 @@
 import React from "react";
-import { Card, Table } from "antd";
-import Title from "../Title";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { Table, Button, Tooltip } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { string, func, array } from "prop-types";
 import "./styles.scss";
 
-const CustomTable = ({ title, onClick, dataSource, columns }) => {
+const CustomTable = ({ tooltip, onClick, dataSource, columns }) => {
     return (
-        <Card
-            title={
-                <Title
-                    title={title}
-                    icon={<PlusCircleOutlined style={{ fontSize: 24 }} onClick={onClick} />}
-                />
-            }
-        >
+        <div>
             <Table dataSource={dataSource} columns={columns} />
-        </Card>
+            <Tooltip title={tooltip}>
+                <Button
+                    type="primary"
+                    shape="circle"
+                    size="large"
+                    style={{ float: "right", margin: 20 }}
+                    onClick={onClick}
+                    icon={<PlusOutlined />}
+                />
+            </Tooltip>
+        </div>
     );
 };
 
 CustomTable.propTypes = {
-    title: string.isRequired,
     onClick: func.isRequired,
     dataSource: array.isRequired,
-    columns: array.isRequired
+    columns: array.isRequired,
+    tooltip: string
 }
 
 export default CustomTable;

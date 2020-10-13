@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Collapse, Tooltip } from 'antd';
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Collapse, Tooltip } from 'antd';
+import { PlusOutlined } from "@ant-design/icons";
 import TransactionModal from "../components/TransactionModal";
 import ChargesModal from "../components/ChargesModal";
 import CustomTable from "../components/CustomTable";
@@ -68,6 +68,18 @@ const Home = () => {
         setIsChargesModalVisible(false);
     };
 
+    const onDeleteCharge = (chargeId) => {
+        const charge = charges.find(c => c.id === chargeId);
+        const newCharges = charges.filter(c => c.id !== chargeId);
+        const newDebit = debit - charge.amount;
+        const newBalance = credit - newDebit;
+        updateSummary({
+            debit: newDebit,
+            balance: newBalance,
+            charges: newCharges
+        });
+    };
+
     const addNewTransaction = (transaction) => {
         const newDebit = debit + transaction.amount;
         const newBalance = credit - newDebit;
@@ -83,6 +95,18 @@ const Home = () => {
             ]
         });
         setIsTransactionModalVisible(false);
+    };
+
+    const onDeleteTransaction = (transactionId) => {
+        const transaction = transactions.find(t => t.id === transactionId);
+        const newTransactions = transactions.filter(t => t.id !== transactionId);
+        const newDebit = debit - transaction.amount;
+        const newBalance = credit - newDebit;
+        updateSummary({
+            debit: newDebit,
+            balance: newBalance,
+            transactions: newTransactions
+        });
     };
 
     const addNewCredit = (amount) => {
@@ -118,9 +142,13 @@ const Home = () => {
                 onRemoveCredit={removeCredit}
                 actions={[
                     <Tooltip key="new_credit" title="Ajouter un revenu">
-                        <PlusCircleOutlined
-                            style={{ fontSize: 24, margin: 10 }}
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            size="large"
+                            style={{ margin: 10 }}
                             onClick={() => setIsVisibleCreditModal(true)}
+                            icon={<PlusOutlined />}
                         />
                     </Tooltip>
                 ]}
@@ -128,9 +156,9 @@ const Home = () => {
             <Collapse className="container-collapse-table" defaultActiveKey={['1']}>
                 <Panel header="Charges" key="1">
                     <CustomTable
-                        title="Charges"
+                        tooltip="Ajouter une charge"
                         dataSource={charges}
-                        columns={chargesColumns}
+                        columns={chargesColumns(onDeleteCharge)}
                         onClick={() => setIsChargesModalVisible(!isChargesModalVisible)}
                     />
                 </Panel>
@@ -138,9 +166,9 @@ const Home = () => {
             <Collapse className="container-collapse-table" defaultActiveKey={['1']}>
                 <Panel header="Dépenses" key="1">
                     <CustomTable
-                        title="Dépenses"
+                        tooltip="Ajouter une dépense"
                         dataSource={transactions}
-                        columns={transactionsColumns}
+                        columns={transactionsColumns(onDeleteTransaction)}
                         onClick={() => setIsTransactionModalVisible(!isTransactionModalVisible)}
                     />
                 </Panel>

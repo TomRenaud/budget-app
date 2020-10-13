@@ -1,38 +1,80 @@
-export const transactionsColumns = [
+import React from "react";
+import { Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+
+export const transactionsColumns = (onDelete) => [
     {
         title: 'Date',
         dataIndex: 'date',
         key: 'date',
+        align: "center",
+        render: (date) => date.format("DD/MM/YYYY")
     },
     {
         title: 'Catégorie',
         dataIndex: 'category',
         key: 'category',
+        align: "center",
     },
     {
         title: 'Montant',
         dataIndex: 'amount',
         key: 'amount',
+        align: "center",
         render: (amount) => `${amount} €`
+    },
+    {
+        dataIndex: 'id',
+        key: 'id',
+        align: "center",
+        render: (id) => (
+            <div>
+                <Button
+                    icon={<DeleteOutlined />}
+                    shape="circle"
+                    type="danger"
+                    onClick={() => onDelete(id)}
+                />
+            </div>
+        )
     }
 ];
 
-export const chargesColumns = [
+export const chargesColumns = (onDelete) => [
     {
         title: 'Date de prélèvement',
         dataIndex: 'date',
         key: 'date',
+        align: "center",
+        render: (date) => date.format("DD/MM/YYYY")
     },
     {
         title: 'Catégorie',
         dataIndex: 'category',
         key: 'category',
+        align: "center",
     },
     {
         title: 'Montant',
         dataIndex: 'amount',
         key: 'amount',
+        align: "center",
         render: (amount) => `${amount} €`
+    },
+    {
+        dataIndex: 'id',
+        key: 'id',
+        align: "center",
+        render: (id) => (
+            <div>
+                <Button
+                    icon={<DeleteOutlined />}
+                    shape="circle"
+                    type="danger"
+                    onClick={() => onDelete(id)}
+                />
+            </div>
+        )
     }
 ];
 

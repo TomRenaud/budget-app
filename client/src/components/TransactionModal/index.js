@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Modal, DatePicker, Button, Select, InputNumber} from "antd";
+import { Modal, DatePicker, Button, Select, InputNumber } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Title from "../Title";
 import moment from "moment";
@@ -9,7 +9,9 @@ import { bool, func, array } from "prop-types";
 const { Option } = Select;
 
 const TransactionModal = ({ isVisible, onCancel, categories, onOk }) => {
-    const [transaction, setTransaction] = useState({});
+    const [transaction, setTransaction] = useState({
+        date: moment()
+    });
     return (
         <Modal
             title={
@@ -24,7 +26,7 @@ const TransactionModal = ({ isVisible, onCancel, categories, onOk }) => {
                 <div>
                     <Button
                         disabled={Object.keys(transaction).length !== 3}
-                        onClick={() => onOk(transaction)}
+                        onClick={() => onOk({ id: Date.now(), ...transaction })}
                     >
                         Ajouter
                     </Button>
@@ -36,8 +38,8 @@ const TransactionModal = ({ isVisible, onCancel, categories, onOk }) => {
                 <DatePicker
                     style={{ width: 300 }}
                     format="DD/MM/YYYY"
-                    defaultValue={moment()}
-                    onChange={(_, date) => setTransaction({ ...transaction, date })}
+                    defaultValue={transaction.date}
+                    onChange={date => setTransaction({ ...transaction, date })}
                 />
             </div>
             <div className="container-item">
